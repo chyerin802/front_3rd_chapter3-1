@@ -36,12 +36,7 @@ export function getWeeksAtMonth(currentDate: Date) {
   const weeks = [];
 
   const initWeek = () => Array(7).fill(null);
-
   let week: Array<number | null> = initWeek();
-
-  for (let i = 0; i < firstDayOfMonth; i++) {
-    week[i] = null;
-  }
 
   for (const day of days) {
     const dayIndex = (firstDayOfMonth + day - 1) % 7;
