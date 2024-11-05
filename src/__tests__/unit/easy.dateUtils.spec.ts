@@ -10,6 +10,7 @@ import {
   getWeeksAtMonth,
   isDateInRange,
 } from '../../utils/dateUtils';
+import { assertDate } from '../utils';
 
 describe('getDaysInMonth', () => {
   it('1월은 31일을 반환한다', () => {
@@ -39,19 +40,125 @@ describe('getDaysInMonth', () => {
 });
 
 describe('getWeekDates', () => {
-  it('주중의 날짜(수요일)에 대해 올바른 주의 날짜들을 반환한다', () => {});
+  it('주중의 날짜(수요일)에 대해 올바른 주의 날짜들을 반환한다', () => {
+    const date = new Date('2024-11-06');
+    const weekDates = getWeekDates(date);
+    const expectedDates = [
+      new Date('2024-11-03'),
+      new Date('2024-11-04'),
+      new Date('2024-11-05'),
+      new Date('2024-11-06'),
+      new Date('2024-11-07'),
+      new Date('2024-11-08'),
+      new Date('2024-11-09'),
+    ];
+    weekDates.forEach((weekDate, index) => assertDate(weekDate, expectedDates[index]));
+  });
 
-  it('주의 시작(월요일)에 대해 올바른 주의 날짜들을 반환한다', () => {});
+  it('주의 시작(월요일)에 대해 올바른 주의 날짜들을 반환한다', () => {
+    const date = new Date('2024-11-04');
+    const weekDates = getWeekDates(date);
+    const expectedDates = [
+      new Date('2024-11-03'),
+      new Date('2024-11-04'),
+      new Date('2024-11-05'),
+      new Date('2024-11-06'),
+      new Date('2024-11-07'),
+      new Date('2024-11-08'),
+      new Date('2024-11-09'),
+    ];
+    weekDates.forEach((weekDate, index) => assertDate(weekDate, expectedDates[index]));
+  });
 
-  it('주의 끝(일요일)에 대해 올바른 주의 날짜들을 반환한다', () => {});
+  it('주의 끝(일요일)에 대해 올바른 주의 날짜들을 반환한다', () => {
+    const date = new Date('2024-11-03');
+    const weekDates = getWeekDates(date);
+    const expectedDates = [
+      new Date('2024-11-03'),
+      new Date('2024-11-04'),
+      new Date('2024-11-05'),
+      new Date('2024-11-06'),
+      new Date('2024-11-07'),
+      new Date('2024-11-08'),
+      new Date('2024-11-09'),
+    ];
+    weekDates.forEach((weekDate, index) => assertDate(weekDate, expectedDates[index]));
+  });
 
-  it('연도를 넘어가는 주의 날짜를 정확히 처리한다 (연말)', () => {});
+  it('연도를 넘어가는 주의 날짜를 정확히 처리한다 (연말)', () => {
+    const date = new Date('2024-12-31');
+    const weekDates = getWeekDates(date);
+    const expectedDates = [
+      new Date('2024-12-29'),
+      new Date('2024-12-30'),
+      new Date('2024-12-31'),
+      new Date('2025-01-01'),
+      new Date('2025-01-02'),
+      new Date('2025-01-03'),
+      new Date('2025-01-04'),
+    ];
+    weekDates.forEach((weekDate, index) => assertDate(weekDate, expectedDates[index]));
+  });
 
-  it('연도를 넘어가는 주의 날짜를 정확히 처리한다 (연초)', () => {});
+  it('연도를 넘어가는 주의 날짜를 정확히 처리한다 (연초)', () => {
+    const date = new Date('2024-01-01');
+    const weekDates = getWeekDates(date);
+    const expectedDates = [
+      new Date('2023-12-31'),
+      new Date('2024-01-01'),
+      new Date('2024-01-02'),
+      new Date('2024-01-03'),
+      new Date('2024-01-04'),
+      new Date('2024-01-05'),
+      new Date('2024-01-06'),
+    ];
+    weekDates.forEach((weekDate, index) => assertDate(weekDate, expectedDates[index]));
+  });
 
-  it('윤년의 2월 29일을 포함한 주를 올바르게 처리한다', () => {});
+  it('윤년의 2월 29일을 포함한 주를 올바르게 처리한다', () => {
+    const date = new Date('2024-02-29');
+    const weekDates = getWeekDates(date);
+    const expectedDates = [
+      new Date('2024-02-25'),
+      new Date('2024-02-26'),
+      new Date('2024-02-27'),
+      new Date('2024-02-28'),
+      new Date('2024-02-29'),
+      new Date('2024-03-01'),
+      new Date('2024-03-02'),
+    ];
+    weekDates.forEach((weekDate, index) => assertDate(weekDate, expectedDates[index]));
+  });
 
-  it('월의 마지막 날짜를 포함한 주를 올바르게 처리한다', () => {});
+  it('평년의 2월 28일을 포함한 주를 올바르게 처리한다', () => {
+    const date = new Date('2023-02-28');
+    const weekDates = getWeekDates(date);
+    const expectedDates = [
+      new Date('2023-02-26'),
+      new Date('2023-02-27'),
+      new Date('2023-02-28'),
+      new Date('2023-03-01'),
+      new Date('2023-03-02'),
+      new Date('2023-03-03'),
+      new Date('2023-03-04'),
+    ];
+    weekDates.forEach((weekDate, index) => assertDate(weekDate, expectedDates[index]));
+  });
+
+  it('월의 마지막 날짜를 포함한 주를 올바르게 처리한다', () => {
+    const date = new Date('2024-10-31');
+    const weekDates = getWeekDates(date);
+    const expectedDates = [
+      new Date('2024-10-27'),
+      new Date('2024-10-28'),
+      new Date('2024-10-29'),
+      new Date('2024-10-30'),
+      new Date('2024-10-31'),
+      new Date('2024-11-01'),
+      new Date('2024-11-02'),
+    ];
+    weekDates.forEach((weekDate, index) => assertDate(weekDate, expectedDates[index]));
+  });
 });
 
 describe('getWeeksAtMonth', () => {
