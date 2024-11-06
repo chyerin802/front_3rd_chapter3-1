@@ -50,11 +50,11 @@ import {
   formatDate,
   formatMonth,
   formatWeek,
-  getEventsForDay,
   getWeekDates,
   getWeeksAtMonth,
 } from './utils/dateUtils';
 import { findOverlappingEvents } from './utils/eventOverlap';
+import { filterEventsByDay } from './utils/eventUtils.ts';
 import { getTimeErrorMessage } from './utils/timeValidation';
 
 const categories = ['업무', '개인', '가족', '기타'];
@@ -256,7 +256,7 @@ function App() {
                               {holiday}
                             </Text>
                           )}
-                          {getEventsForDay(filteredEvents, day).map((event) => {
+                          {filterEventsByDay(filteredEvents, day).map((event) => {
                             const isNotified = notifiedEvents.includes(event.id);
                             return (
                               <Box

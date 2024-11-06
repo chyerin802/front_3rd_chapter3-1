@@ -1,6 +1,10 @@
 import { Event } from '../types';
 import { getWeekDates, isDateInRange } from './dateUtils';
 
+export function filterEventsByDay(events: Event[], day: number): Event[] {
+  return events.filter((event) => new Date(event.date).getDate() === day);
+}
+
 function filterEventsByDateRange(events: Event[], start: Date, end: Date): Event[] {
   return events.filter((event) => {
     const eventDate = new Date(event.date);

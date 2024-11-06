@@ -1,5 +1,15 @@
 import { Event } from '../../types';
-import { getFilteredEvents } from '../../utils/eventUtils';
+import { filterEventsByDay, getFilteredEvents } from '../../utils/eventUtils';
+
+describe('filterEventsByDay', () => {
+  it('특정 날짜(1일)에 해당하는 이벤트만 정확히 반환한다', () => {});
+
+  it('해당 날짜에 이벤트가 없을 경우 빈 배열을 반환한다', () => {});
+
+  it('날짜가 0일 경우 빈 배열을 반환한다', () => {});
+
+  it('날짜가 32일 이상인 경우 빈 배열을 반환한다', () => {});
+});
 
 describe('getFilteredEvents', () => {
   it("검색어 '이벤트 2'에 맞는 이벤트만 반환한다", () => {});

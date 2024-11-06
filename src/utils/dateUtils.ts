@@ -1,5 +1,3 @@
-import { Event } from '../types.ts';
-
 /**
  * 주어진 년도와 월의 일수를 반환합니다.
  */
@@ -48,10 +46,6 @@ export function getWeeksAtMonth(currentDate: Date) {
   }
 
   return weeks;
-}
-
-export function getEventsForDay(events: Event[], date: number): Event[] {
-  return events.filter((event) => new Date(event.date).getDate() === date);
 }
 
 export function formatWeek(targetDate: Date) {
