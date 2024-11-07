@@ -83,9 +83,55 @@ describe('convertEventToDateRange', () => {
 });
 
 describe('isOverlapping', () => {
-  it('두 이벤트가 겹치는 경우 true를 반환한다', () => {});
+  const event1: EventForm = {
+    title: '이벤트 1',
+    description: '설명 1',
+    location: '장소 1',
+    date: '2024-07-01',
+    startTime: '14:00',
+    endTime: '16:00',
+    category: 'meeting',
+    repeat: {
+      type: 'none',
+      interval: 1,
+    },
+    notificationTime: 30,
+  };
 
-  it('두 이벤트가 겹치지 않는 경우 false를 반환한다', () => {});
+  it('두 이벤트가 겹치는 경우 true를 반환한다', () => {
+    const overlappingEvent: EventForm = {
+      ...event1,
+      startTime: '15:00',
+      endTime: '17:00',
+    };
+
+    expect(isOverlapping(event1, overlappingEvent)).toBe(true);
+  });
+
+  it('두 이벤트가 겹치지 않는 경우 false를 반환한다', () => {
+    const nonOverlappingEvent: EventForm = {
+      ...event1,
+      startTime: '16:30',
+      endTime: '17:30',
+    };
+
+    expect(isOverlapping(event1, nonOverlappingEvent)).toBe(false);
+  });
+
+  it('한 이벤트가 다른 이벤트를 완전히 포함할 때 true를 반환한다', () => {
+    const containedEvent: EventForm = {
+      ...event1,
+      startTime: '14:30',
+      endTime: '15:30',
+    };
+
+    expect(isOverlapping(event1, containedEvent)).toBe(true);
+  });
+
+  it('이벤트들이 정확히 같은 시간에 시작하고 끝날 때 true를 반환한다', () => {
+    const sameTimeEvent: EventForm = { ...event1 };
+    expect(isOverlapping(event1, sameTimeEvent)).toBe(true);
+  });
 });
 
 describe('findOverlappingEvents', () => {
