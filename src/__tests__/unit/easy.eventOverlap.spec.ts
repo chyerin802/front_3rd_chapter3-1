@@ -135,7 +135,80 @@ describe('isOverlapping', () => {
 });
 
 describe('findOverlappingEvents', () => {
-  it('새 이벤트와 겹치는 모든 이벤트를 반환한다', () => {});
+  const baseEvent: Event = {
+    id: '1',
+    title: '기준 이벤트',
+    description: '설명',
+    location: '장소',
+    date: '2024-07-01',
+    startTime: '14:00',
+    endTime: '16:00',
+    category: 'meeting',
+    repeat: {
+      type: 'none',
+      interval: 1,
+    },
+    notificationTime: 30,
+  };
 
-  it('겹치는 이벤트가 없으면 빈 배열을 반환한다', () => {});
+  const existingEvents: Event[] = [
+    baseEvent,
+    {
+      ...baseEvent,
+      id: '2',
+      startTime: '12:00',
+      endTime: '14:00',
+    },
+    {
+      ...baseEvent,
+      id: '3',
+      startTime: '16:00',
+      endTime: '18:00',
+    },
+  ];
+
+  it('새 이벤트와 겹치는 모든 이벤트를 반환한다', () => {
+    const newEvent: EventForm = {
+      title: '새 이벤트',
+      description: '설명',
+      location: '장소',
+      date: '2024-07-01',
+      startTime: '13:30',
+      endTime: '15:30',
+      category: 'meeting',
+      repeat: {
+        type: 'none',
+        interval: 1,
+      },
+      notificationTime: 30,
+    };
+
+    const overlapping = findOverlappingEvents(newEvent, existingEvents);
+    expect(overlapping).toHaveLength(2);
+    expect(overlapping.map((e) => e.id)).toEqual(['1', '2']);
+  });
+
+  it('겹치는 이벤트가 없으면 빈 배열을 반환한다', () => {
+    const nonOverlappingEvent: EventForm = {
+      ...baseEvent,
+      startTime: '18:00',
+      endTime: '19:00',
+    };
+
+    const overlapping = findOverlappingEvents(nonOverlappingEvent, existingEvents);
+    expect(overlapping).toHaveLength(0);
+  });
+
+  it('이미 존재하는 이벤트를 수정할 때 자기 자신을 제외한다', () => {
+    const updatedEvent: Event = {
+      ...baseEvent,
+      id: '2',
+      startTime: '13:30',
+      endTime: '15:30',
+    };
+
+    const overlapping = findOverlappingEvents(updatedEvent, existingEvents);
+    expect(overlapping).toHaveLength(1);
+    expect(overlapping[0].id).toBe('1');
+  });
 });
