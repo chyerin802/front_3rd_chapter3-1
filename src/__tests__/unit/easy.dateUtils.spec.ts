@@ -328,12 +328,7 @@ describe('formatDate', () => {
 describe('parseDateTime', () => {
   it('2024-07-01 14:30을 정확한 Date 객체로 변환한다', () => {
     const result = parseDateTime('2024-07-01', '14:30');
-    expect(result).toBeInstanceOf(Date);
-    expect(result.getFullYear()).toBe(2024);
-    expect(result.getMonth()).toBe(6); // 0-based month
-    expect(result.getDate()).toBe(1);
-    expect(result.getHours()).toBe(14);
-    expect(result.getMinutes()).toBe(30);
+    assertDate(result, new Date('2024-07-01T14:30:00'));
   });
 
   it('잘못된 날짜 형식에 대해 Invalid Date를 반환한다', () => {
