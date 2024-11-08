@@ -3,35 +3,7 @@ import {
   convertEventToDateRange,
   findOverlappingEvents,
   isOverlapping,
-  parseDateTime,
 } from '../../utils/eventOverlap';
-
-describe('parseDateTime', () => {
-  it('2024-07-01 14:30을 정확한 Date 객체로 변환한다', () => {
-    const result = parseDateTime('2024-07-01', '14:30');
-    expect(result).toBeInstanceOf(Date);
-    expect(result.getFullYear()).toBe(2024);
-    expect(result.getMonth()).toBe(6); // 0-based month
-    expect(result.getDate()).toBe(1);
-    expect(result.getHours()).toBe(14);
-    expect(result.getMinutes()).toBe(30);
-  });
-
-  it('잘못된 날짜 형식에 대해 Invalid Date를 반환한다', () => {
-    const result = parseDateTime('2024-13-01', '14:30');
-    expect(result.toString()).toBe('Invalid Date');
-  });
-
-  it('잘못된 시간 형식에 대해 Invalid Date를 반환한다', () => {
-    const result = parseDateTime('2024-07-01', '25:70');
-    expect(result.toString()).toBe('Invalid Date');
-  });
-
-  it('날짜 문자열이 비어있을 때 Invalid Date를 반환한다', () => {
-    const result = parseDateTime('', '14:30');
-    expect(result.toString()).toBe('Invalid Date');
-  });
-});
 
 describe('convertEventToDateRange', () => {
   const sampleEventForm: EventForm = {

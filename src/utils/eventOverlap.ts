@@ -1,8 +1,5 @@
 import { Event, EventForm } from '../types';
-
-export function parseDateTime(date: string, time: string) {
-  return new Date(`${date}T${time}`);
-}
+import { parseDateTime } from './dateUtils';
 
 export function convertEventToDateRange({ date, startTime, endTime }: Event | EventForm) {
   return {

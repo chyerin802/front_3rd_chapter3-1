@@ -1,4 +1,3 @@
-import { Event } from '../../types';
 import {
   fillZero,
   formatDate,
@@ -8,6 +7,7 @@ import {
   getWeekDates,
   getWeeksAtMonth,
   isDateInRange,
+  parseDateTime,
 } from '../../utils/dateUtils';
 import { assertDate } from '../utils';
 
@@ -322,5 +322,32 @@ describe('formatDate', () => {
   it('day 파라미터가 제공되고, 한 자리 수일 때 앞에 0을 붙여 포맷팅한다', () => {
     const date = new Date('2024-07-15');
     expect(formatDate(date, 3)).toBe('2024-07-03');
+  });
+});
+
+describe('parseDateTime', () => {
+  it('2024-07-01 14:30을 정확한 Date 객체로 변환한다', () => {
+    const result = parseDateTime('2024-07-01', '14:30');
+    expect(result).toBeInstanceOf(Date);
+    expect(result.getFullYear()).toBe(2024);
+    expect(result.getMonth()).toBe(6); // 0-based month
+    expect(result.getDate()).toBe(1);
+    expect(result.getHours()).toBe(14);
+    expect(result.getMinutes()).toBe(30);
+  });
+
+  it('잘못된 날짜 형식에 대해 Invalid Date를 반환한다', () => {
+    const result = parseDateTime('2024-13-01', '14:30');
+    expect(result.toString()).toBe('Invalid Date');
+  });
+
+  it('잘못된 시간 형식에 대해 Invalid Date를 반환한다', () => {
+    const result = parseDateTime('2024-07-01', '25:70');
+    expect(result.toString()).toBe('Invalid Date');
+  });
+
+  it('날짜 문자열이 비어있을 때 Invalid Date를 반환한다', () => {
+    const result = parseDateTime('', '14:30');
+    expect(result.toString()).toBe('Invalid Date');
   });
 });

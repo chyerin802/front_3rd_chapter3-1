@@ -95,3 +95,7 @@ export function formatDate(currentDate: Date, day?: number) {
     fillZero(day ?? currentDate.getDate()),
   ].join('-');
 }
+
+export function parseDateTime(date: string, time: string) {
+  return new Date(`${date}T${time}`);
+}
